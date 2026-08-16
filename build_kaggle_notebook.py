@@ -30,6 +30,23 @@ cells = [
         "metadata": {},
         "outputs": [],
         "source": [
+            "import torch\n",
+            "print('PyTorch Version:', torch.__version__)\n",
+            "print('CUDA Available:', torch.cuda.is_available())\n",
+            "if not torch.cuda.is_available():\n",
+            "    raise RuntimeError(\n",
+            "        '❌ ERROR: CUDA GPU is not enabled for this Kaggle Notebook session!\\n' \n",
+            "        'Please enable GPU T4 x2 or P100 in the right-hand panel -> Accelerator -> GPU T4 x2, then Save & Run All.'\n",
+            "    )\n",
+            "print('🚀 CUDA GPU detected successfully:', torch.cuda.get_device_name(0))\n"
+        ]
+    },
+    {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": [
             "import os\n",
             "!git clone https://github.com/QuanDo610/ThesisLRLPR-SR-Transformer.git repo || true\n",
             "if os.path.exists('repo'):\n",
@@ -110,23 +127,6 @@ cells.append({
     "outputs": [],
     "source": [
         "!pip install albumentations opencv-python-headless\n"
-    ]
-})
-
-# Add GPU check cell
-cells.append({
-    "cell_type": "code",
-    "execution_count": None,
-    "metadata": {},
-    "outputs": [],
-    "source": [
-        "import torch\n",
-        "print('PyTorch Version:', torch.__version__)\n",
-        "print('CUDA Available:', torch.cuda.is_available())\n",
-        "if torch.cuda.is_available():\n",
-        "    print('GPU Device Name:', torch.cuda.get_device_name(0))\n",
-        "else:\n",
-        "    print('⚠️ WARNING: CUDA GPU is not detected by PyTorch on Kaggle!')\n"
     ]
 })
 
