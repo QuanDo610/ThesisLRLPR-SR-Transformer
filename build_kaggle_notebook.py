@@ -31,10 +31,10 @@ cells = [
         "outputs": [],
         "source": [
             "import os\n",
-            "if not os.path.exists('ThesisLRLPR-SR-Transformer'):\n",
-            "    !git clone https://github.com/QuanDo610/ThesisLRLPR-SR-Transformer.git\n",
-            "if os.path.exists('ThesisLRLPR-SR-Transformer'):\n",
-            "    %cd ThesisLRLPR-SR-Transformer\n"
+            "!git clone https://github.com/QuanDo610/ThesisLRLPR-SR-Transformer.git repo || true\n",
+            "if os.path.exists('repo'):\n",
+            "    !cp -rf repo/* ./\n",
+            "    print('✅ Copied repository files to current working directory')\n"
         ]
     },
     {
