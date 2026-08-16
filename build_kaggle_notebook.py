@@ -138,7 +138,7 @@ cells.append({
     "outputs": [],
     "source": [
         "# Train ResTranOCR Model on Kaggle GPU CUDA\n",
-        "!python train.py --model restran --experiment-name restran_kaggle_gpu --epochs 30 --batch-size 64\n"
+        "!python train.py --model restran --experiment-name restran_kaggle_gpu --epochs 30 --batch-size 64 --require-gpu\n"
     ]
 })
 

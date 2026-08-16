@@ -92,6 +92,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Train on full dataset and generate submission file for test data",
     )
+    parser.add_argument(
+        "--require-gpu",
+        action="store_true",
+        help="Abort immediately if no GPU (CUDA/MPS) is detected",
+    )
     return parser.parse_args()
 
 
@@ -146,6 +151,12 @@ def main():
     print(f"   DEVICE: {config.DEVICE}")
     print(f"   SUBMISSION_MODE: {args.submission_mode}")
     
+    if args.require_gpu:
+        if not (torch.cuda.is_available() or torch.backends.mps.is_available()):
+            print("\n❌ CRITICAL ERROR: --require-gpu flag is set, but PyTorch could not detect any GPU (CUDA/MPS)!")
+            print("   Execution aborted immediately to prevent running on CPU.\n")
+            sys.exit(1)
+
     # Validate data path
     if not os.path.exists(config.DATA_ROOT):
         print(f"❌ ERROR: Data root not found: {config.DATA_ROOT}")
