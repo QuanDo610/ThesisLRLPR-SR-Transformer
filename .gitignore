@@ -10,6 +10,7 @@ env/
 
 # Data & Datasets
 /data/
+/dataset/
 *.json
 !data/val_tracks.json  
 
@@ -29,6 +30,7 @@ logs/
 .vscode/
 .idea/
 .DS_Store
+kaggle_results/
 
 # Temporary/Generated files
 repomix-output.xml

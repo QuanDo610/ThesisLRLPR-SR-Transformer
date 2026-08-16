@@ -53,7 +53,8 @@ class Trainer:
             steps_per_epoch=len(train_loader),
             epochs=config.EPOCHS
         )
-        self.scaler = GradScaler()
+        use_cuda = (self.device.type == 'cuda')
+        self.scaler = GradScaler('cuda', enabled=use_cuda)
         
         # Tracking
         self.best_acc = 0.0
@@ -81,7 +82,10 @@ class Trainer:
             
             self.optimizer.zero_grad(set_to_none=True)
             
-            with autocast('cuda'):
+            device_type = self.device.type if self.device.type in ['cuda', 'mps', 'cpu'] else 'cpu'
+            autocast_enabled = (self.device.type in ['cuda', 'mps'])
+            
+            with autocast(device_type=device_type, enabled=autocast_enabled):
                 preds = self.model(images)
                 preds_permuted = preds.permute(1, 0, 2)
                 input_lengths = torch.full(
@@ -89,7 +93,10 @@ class Trainer:
                     fill_value=preds.size(1),
                     dtype=torch.long
                 )
-                loss = self.criterion(preds_permuted, targets, input_lengths, target_lengths)
+                if self.device.type == 'mps':
+                    loss = self.criterion(preds_permuted.cpu(), targets.cpu(), input_lengths, target_lengths)
+                else:
+                    loss = self.criterion(preds_permuted, targets, input_lengths, target_lengths)
 
             # Scale loss & backward
             self.scaler.scale(loss).backward()

@@ -47,7 +47,11 @@ class Config:
     TRANSFORMER_FF_DIM: int = 2048
     TRANSFORMER_DROPOUT: float = 0.1
     
-    DEVICE: torch.device = field(default_factory=lambda: torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
+    DEVICE: torch.device = field(
+        default_factory=lambda: torch.device(
+            'cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu')
+        )
+    )
     OUTPUT_DIR: str = "results"
     
     # Derived attributes (computed in __post_init__)

@@ -2,6 +2,7 @@
 """Main entry point for OCR training pipeline."""
 import argparse
 import os
+os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 import sys
 
 import torch
@@ -221,7 +222,7 @@ def main():
                 shuffle=False,
                 collate_fn=MultiFrameDataset.collate_fn,
                 num_workers=config.NUM_WORKERS,
-                pin_memory=True
+                pin_memory=(config.DEVICE.type == 'cuda')
             )
         else:
             print("⚠️ WARNING: Validation dataset is empty.")
@@ -239,7 +240,7 @@ def main():
         shuffle=True,
         collate_fn=MultiFrameDataset.collate_fn,
         num_workers=config.NUM_WORKERS,
-        pin_memory=True
+        pin_memory=(config.DEVICE.type == 'cuda')
     )
 
     # Initialize model based on config

@@ -19,6 +19,8 @@ def seed_everything(seed: int = 42, benchmark: bool = False) -> None:
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+    if hasattr(torch, 'mps') and torch.backends.mps.is_available():
+        torch.mps.manual_seed(seed)
     
     if benchmark:
         print(f"⚡ Benchmark mode ENABLED (Speed optimized). Deterministic mode DISABLED.")
