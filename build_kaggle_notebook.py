@@ -113,7 +113,24 @@ cells.append({
     ]
 })
 
-# Add execution cell for training both CRNN and ResTranOCR
+# Add GPU check cell
+cells.append({
+    "cell_type": "code",
+    "execution_count": None,
+    "metadata": {},
+    "outputs": [],
+    "source": [
+        "import torch\n",
+        "print('PyTorch Version:', torch.__version__)\n",
+        "print('CUDA Available:', torch.cuda.is_available())\n",
+        "if torch.cuda.is_available():\n",
+        "    print('GPU Device Name:', torch.cuda.get_device_name(0))\n",
+        "else:\n",
+        "    print('⚠️ WARNING: CUDA GPU is not detected by PyTorch on Kaggle!')\n"
+    ]
+})
+
+# Add execution cell for training ResTranOCR
 cells.append({
     "cell_type": "code",
     "execution_count": None,
@@ -160,10 +177,10 @@ metadata = {
   "code_file": "kaggle_notebook.ipynb",
   "language": "python",
   "kernel_type": "notebook",
-  "is_private": "true",
-  "enable_gpu": "true",
-  "enable_tpu": "false",
-  "enable_internet": "true",
+  "is_private": True,
+  "enable_gpu": True,
+  "enable_tpu": False,
+  "enable_internet": True,
   "dataset_sources": [
     "trunghiu/icpr-car-plate-dataset",
     "nhttinon/icpr-public-test"
