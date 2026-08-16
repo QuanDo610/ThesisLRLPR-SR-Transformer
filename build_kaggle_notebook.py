@@ -154,4 +154,25 @@ os.makedirs('kaggle_kernel', exist_ok=True)
 with open('kaggle_kernel/kaggle_notebook.ipynb', 'w') as f:
     json.dump(notebook, f, indent=1)
 
-print("Built self-contained kaggle_notebook.ipynb successfully!")
+metadata = {
+  "id": "dotrongminhquan/multiframe-lpr-train",
+  "title": "MultiFrame LPR Train",
+  "code_file": "kaggle_notebook.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_tpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "trunghiu/icpr-car-plate-dataset",
+    "nhttinon/icpr-public-test"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}
+
+with open('kaggle_kernel/kernel-metadata.json', 'w') as f:
+    json.dump(metadata, f, indent=2)
+
+print("Built self-contained kaggle_notebook.ipynb and kernel-metadata.json successfully!")
